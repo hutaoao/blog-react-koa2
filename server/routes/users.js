@@ -1,13 +1,10 @@
-const router = require('koa-router')()
+const router = require('koa-router')();
+const User = require('../controllers/user');
 
-router.prefix('/users')
+router.prefix('/user'); //设置路径前缀
 
-router.get('/', function (ctx, next) {
-  ctx.body = 'this is a users response!'
-})
-
-router.get('/bar', function (ctx, next) {
-  ctx.body = 'this is a users/bar response'
-})
+router.get('/list', User.list);
+router.get('/register', User.register);
+router.get('/change-password', User.changePassword);
 
 module.exports = router
