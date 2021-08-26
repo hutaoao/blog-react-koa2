@@ -1,14 +1,35 @@
 .login-box {
+  width: 100vw;
+  height: 100vh;
+  background: #ecefff;
+
   .login-form {
-    max-width: 300px;
+    width: 320px;
+    height: 300px;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+  }
+
+  .ant-col-rtl {
+    float: left;
   }
 
   .login-form-forgot {
+    padding: 0;
     float: right;
+    height: 22px;
   }
 
-  .ant-col-rtl .login-form-forgot {
-    float: left;
+  .login-form-register {
+    padding: 0;
+    margin-left: 6px;
   }
 
   .login-form-button {

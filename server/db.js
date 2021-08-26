@@ -1,7 +1,7 @@
 //连接数据库
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('blog', 'root', 'qwer1234', {
+const sequelize = new Sequelize('blog-react', 'root', 'qwer1234', {
   host: 'localhost',
   dialect: 'mysql',
   operatorsAliases: false,

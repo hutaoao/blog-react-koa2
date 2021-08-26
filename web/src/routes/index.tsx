@@ -1,11 +1,14 @@
 import routes from './routes';
+import Store from '../stores';
 import {ConfigProvider} from 'antd';
 import NotFind from '../pages/404';
+import {Provider} from "mobx-react";
 import PrivateRoute from "./PrivateRoute";
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
 const index = () => {
   return (
+    <Provider {...Store}>
     <ConfigProvider>
       <BrowserRouter>
         <PrivateRoute>
@@ -57,6 +60,7 @@ const index = () => {
         </PrivateRoute>
       </BrowserRouter>
     </ConfigProvider>
+    </Provider>
   )
 }
 

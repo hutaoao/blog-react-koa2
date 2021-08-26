@@ -10,9 +10,9 @@ axios.interceptors.request.use((config: any) => {
     const token = localStorage.getItem("token");
     config.headers = {
       'token': token,
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/json;charset=UTF-8',
     }
-    return config;
+    return {...config};
   }, (error: any) => {
     message.error('请求出错了，请稍后重试');
     return Promise.reject(error);

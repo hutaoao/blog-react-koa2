@@ -7,20 +7,21 @@ const user = db.define('user', {
     primaryKey: true,
     autoIncrement: true
   },
-  name: {
+  username: {
     type: Sequelize.STRING,
-    unique: {
-      msg: '该用户已存在'
-    },
+    unique: true,
     allowNull: false,
     validate: {
-      notNull: true,
+      notNull: {
+        msg: '请输入你的名字'
+      },
     }
   },
   password: {
-    type: Sequelize.INTEGER(2),
+    type: Sequelize.STRING,
+    allowNull: false,
     validate: {
-      len: [6, 10],
+      len: [4, 10],
     }
   },
 }, {freezeTableName: true})
