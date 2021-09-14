@@ -2,7 +2,7 @@ import {observable, action, makeObservable} from 'mobx';
 
 import apis from '../../apis';
 
-const {login, register} = apis;
+const {login, register, changePassword} = apis;
 
 class LoginStore {
   constructor() {
@@ -14,13 +14,19 @@ class LoginStore {
 
   @action
   fetchLogin = async (params: any) => {
-    const {code, msg} = await login(params);
-    return {code, msg};
+    const {code, msg, data, token} = await login(params);
+    return {code, msg, data, token};
   }
 
   @action
   fetchRegister = async (params: any) => {
     const {code, msg} = await register(params);
+    return {code, msg};
+  }
+
+  @action
+  fetchChangePassword = async (params: any) => {
+    const {code, msg} = await changePassword(params);
     return {code, msg};
   }
 }

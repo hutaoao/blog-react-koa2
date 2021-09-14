@@ -13,7 +13,7 @@ import BlogArchive from '../pages/blog/archive';
 const routes = [
   {
     title: '登录',
-    path: '/admin/login',
+    path: '/login',
     component: Login
   },
   {

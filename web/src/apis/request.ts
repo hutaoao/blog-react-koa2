@@ -7,7 +7,7 @@ axios.defaults.baseURL = '/';
 
 // 请求拦截器
 axios.interceptors.request.use((config: any) => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("jwtToken");
     config.headers = {
       'token': token,
       'Content-Type': 'application/json;charset=UTF-8',

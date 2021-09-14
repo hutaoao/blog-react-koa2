@@ -1,5 +1,10 @@
+const util = require('util');
 const user = require('../model/user');
-const {Op, and} = require('sequelize');
+const {Op} = require('sequelize');
+const jwt = require('jsonwebtoken'); //生成token
+
+const SECRET = "ht-blog-secret";// 这是加密的key（密钥）
+const verify = util.promisify(jwt.verify);
 
 const list = async (ctx) => {
   const data = await user.findAll()
@@ -10,6 +15,7 @@ const list = async (ctx) => {
   }
 }
 
+// 注册
 const register = async (ctx) => {
   try {
     await user.create(ctx.request.body);
@@ -26,6 +32,7 @@ const register = async (ctx) => {
   }
 }
 
+// 登录
 const login = async (ctx) => {
   try {
     const params = ctx.request.body
@@ -51,10 +58,21 @@ const login = async (ctx) => {
         ]
       }
     })
-    ctx.body = {
-      data,
-      code: data ? 1000 : 10003,
-      msg: data ? '登录成功' : '密码错误'
+    if(data) {
+      const token = jwt.sign(data.dataValues, SECRET, {
+        expiresIn: 60 * 5  // 1小时过期
+      });
+      ctx.body = {
+        data,
+        token,
+        code: 1000,
+        msg: '登录成功'
+      }
+    }else {
+      ctx.body = {
+        code: 1003,
+        msg: '密码错误'
+      }
     }
   } catch (err) {
     const msg = err.errors[0]
@@ -65,16 +83,20 @@ const login = async (ctx) => {
   }
 }
 
+// 修改密码
 const changePassword = async (ctx) => {
+  const params = ctx.request.body;
+  // console.log(ctx);
+  // console.log(jwt.verify(ctx.request.header.token, SECRET));
   try {
-    await user.update({password: ctx.query.password}, {
+    await user.update({password: params.password}, {
       where: {
-        id: ctx.query.id
+        id: params.id
       }
     });
     ctx.body = {
       code: 1000,
-      data: 'update success'
+      data: '修改成功'
     }
   } catch (err) {
     const msg = err.errors[0]

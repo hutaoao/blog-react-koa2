@@ -1,5 +1,5 @@
-import React, {FC, useState} from 'react'
-import './index.less';
+import React, {FC, useEffect, useState} from 'react'
+import styles from './index.module.less';
 import {inject, observer} from 'mobx-react';
 import {Form, Input, Button, Checkbox, message} from 'antd';
 import {UserOutlined, LockOutlined} from '@ant-design/icons';
@@ -17,6 +17,10 @@ interface loginParams {
 const Index: FC<IProps> = (props) => {
   const [isLogin, setLogin] = useState<boolean>(true);
 
+  useEffect(() => {
+    sessionStorage.clear();
+  })
+
   const onFinish = async (values: any) => {
     let params: loginParams = {
       username: values.username,
@@ -24,9 +28,11 @@ const Index: FC<IProps> = (props) => {
     }
     const {loginStore: {fetchLogin, fetchRegister}, history} = props;
     if (isLogin) {
-      const {code, msg} = await fetchLogin(params);
+      const {code, token, data, msg} = await fetchLogin(params);
       if (code === 1000) {
         message.success(msg);
+        sessionStorage.setItem('jwtToken', token);
+        sessionStorage.setItem('username', data.username);
         history.push('/admin/home');
       } else {
         message.error(msg);
@@ -46,10 +52,10 @@ const Index: FC<IProps> = (props) => {
   }
 
   return (
-    <div className='login-box'>
+    <div className={styles.loginBox}>
       <Form
         name="normal_login"
-        className="login-form"
+        className={styles.loginForm}
         initialValues={{remember: true}}
         onFinish={onFinish}
       >
@@ -73,16 +79,16 @@ const Index: FC<IProps> = (props) => {
           <Form.Item name="remember" valuePropName="checked" noStyle>
             <Checkbox>Remember me</Checkbox>
           </Form.Item>
-          <Button type='link' className="login-form-forgot">
+          <Button type='link' className={styles.loginFormForgot}>
             Forgot password
           </Button>
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit" className="login-form-button">
+          <Button type="primary" htmlType="submit" className={styles.loginFormButton}>
             {isLogin ? 'Sign in' : 'Sign up'}
           </Button>
           Or
-          <Button type='link' className="login-form-register" onClick={goRegister}>
+          <Button type='link' className={styles.loginFormRegister} onClick={goRegister}>
             {isLogin ? 'register now!' : 'login now!'}
           </Button>
         </Form.Item>

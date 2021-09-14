@@ -2,9 +2,10 @@ import React, {FC, useState} from 'react';
 import MySider from './Sider';
 import MyHeader from './Header';
 import {Layout} from "antd";
+import styles from './index.module.less';
 
 interface IProps {
-  children: any
+  children: any;
 }
 
 const {Header, Content, Sider} = Layout;
@@ -20,21 +21,19 @@ const Index: FC<IProps> = props => {
     <div>
       <Layout>
         <Sider
-          style={{
-            overflow: 'auto',
-            height: '100vh',
-            position: 'fixed',
-            left: 0,
-          }}
-          collapsible collapsed={collapsed} onCollapse={onCollapse}
+          theme='light'
+          collapsible
+          collapsed={collapsed}
+          onCollapse={onCollapse}
+          className={styles.layoutSider}
         >
           <MySider/>
         </Sider>
-        <Layout className="site-layout">
-          <Header className="site-layout-background" style={{padding: 0}}>
+        <Layout>
+          <Header className={styles.layoutHeader}>
             <MyHeader/>
           </Header>
-          <Content style={{margin: '24px 16px 0', overflow: 'initial'}}>
+          <Content className={styles.layoutContent}>
             {props.children}
           </Content>
         </Layout>
